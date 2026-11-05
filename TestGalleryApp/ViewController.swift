@@ -1,10 +1,3 @@
-//
-//  ViewController.swift
-//  TestGalleryApp
-//
-//  Created by Matvei on 5.11.26.
-//
-
 import UIKit
 
 class ViewController: UIViewController {
