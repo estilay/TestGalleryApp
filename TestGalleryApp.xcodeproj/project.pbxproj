@@ -10,7 +10,18 @@
 		B8E55350309CD67000FB98F4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = B8E5534F309CD66300FB98F4 /* .swiftlint.yml */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		B82A57F5309E4AFB00F4FDCC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B8E552CA309CD47700FB98F4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B8E552D1309CD47700FB98F4;
+			remoteInfo = TestGalleryApp;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		B82A57F1309E4AFB00F4FDCC /* TestGalleryAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestGalleryAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8E552D2309CD47700FB98F4 /* TestGalleryApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestGalleryApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8E5534F309CD66300FB98F4 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -26,6 +37,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		B82A57F2309E4AFB00F4FDCC /* TestGalleryAppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TestGalleryAppTests;
+			sourceTree = "<group>";
+		};
 		B8E552D4309CD47700FB98F4 /* TestGalleryApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -37,6 +53,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B82A57EE309E4AFB00F4FDCC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B8E552CF309CD47700FB98F4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -50,9 +73,10 @@
 		B8E552C9309CD47700FB98F4 = {
 			isa = PBXGroup;
 			children = (
-				B8E5534F309CD66300FB98F4 /* .swiftlint.yml */,
 				B8E552D4309CD47700FB98F4 /* TestGalleryApp */,
+				B82A57F2309E4AFB00F4FDCC /* TestGalleryAppTests */,
 				B8E552D3309CD47700FB98F4 /* Products */,
+				B8E5534F309CD66300FB98F4 /* .swiftlint.yml */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				B8E552D2309CD47700FB98F4 /* TestGalleryApp.app */,
+				B82A57F1309E4AFB00F4FDCC /* TestGalleryAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -67,6 +92,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		B82A57F0309E4AFB00F4FDCC /* TestGalleryAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B82A57F7309E4AFB00F4FDCC /* Build configuration list for PBXNativeTarget "TestGalleryAppTests" */;
+			buildPhases = (
+				B82A57ED309E4AFB00F4FDCC /* Sources */,
+				B82A57EE309E4AFB00F4FDCC /* Frameworks */,
+				B82A57EF309E4AFB00F4FDCC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B82A57F6309E4AFB00F4FDCC /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				B82A57F2309E4AFB00F4FDCC /* TestGalleryAppTests */,
+			);
+			name = TestGalleryAppTests;
+			packageProductDependencies = (
+			);
+			productName = TestGalleryAppTests;
+			productReference = B82A57F1309E4AFB00F4FDCC /* TestGalleryAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		B8E552D1309CD47700FB98F4 /* TestGalleryApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B8E552E8309CD47800FB98F4 /* Build configuration list for PBXNativeTarget "TestGalleryApp" */;
@@ -100,6 +148,10 @@
 				LastSwiftUpdateCheck = 2630;
 				LastUpgradeCheck = 2630;
 				TargetAttributes = {
+					B82A57F0309E4AFB00F4FDCC = {
+						CreatedOnToolsVersion = 26.3;
+						TestTargetID = B8E552D1309CD47700FB98F4;
+					};
 					B8E552D1309CD47700FB98F4 = {
 						CreatedOnToolsVersion = 26.3;
 					};
@@ -120,11 +172,19 @@
 			projectRoot = "";
 			targets = (
 				B8E552D1309CD47700FB98F4 /* TestGalleryApp */,
+				B82A57F0309E4AFB00F4FDCC /* TestGalleryAppTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		B82A57EF309E4AFB00F4FDCC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B8E552D0309CD47700FB98F4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -156,6 +216,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B82A57ED309E4AFB00F4FDCC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B8E552CE309CD47700FB98F4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -165,9 +232,63 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		B82A57F6309E4AFB00F4FDCC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B8E552D1309CD47700FB98F4 /* TestGalleryApp */;
+			targetProxy = B82A57F5309E4AFB00F4FDCC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		B82A57F8309E4AFB00F4FDCC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5PRJ2M52BU;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = estilay.TestGalleryAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestGalleryApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TestGalleryApp";
+			};
+			name = Debug;
+		};
+		B82A57F9309E4AFB00F4FDCC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5PRJ2M52BU;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = estilay.TestGalleryAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestGalleryApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TestGalleryApp";
+			};
+			name = Release;
+		};
 		B8E552E9309CD47800FB98F4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = B8E552D4309CD47700FB98F4 /* TestGalleryApp */;
+			baseConfigurationReferenceRelativePath = Config/Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -205,6 +326,8 @@
 		};
 		B8E552EA309CD47800FB98F4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = B8E552D4309CD47700FB98F4 /* TestGalleryApp */;
+			baseConfigurationReferenceRelativePath = Config/Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -242,6 +365,8 @@
 		};
 		B8E552EB309CD47800FB98F4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = B8E552D4309CD47700FB98F4 /* TestGalleryApp */;
+			baseConfigurationReferenceRelativePath = Config/Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -278,7 +403,7 @@
 				DEVELOPMENT_TEAM = 5PRJ2M52BU;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -306,6 +431,8 @@
 		};
 		B8E552EC309CD47800FB98F4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = B8E552D4309CD47700FB98F4 /* TestGalleryApp */;
+			baseConfigurationReferenceRelativePath = Config/Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -342,7 +469,7 @@
 				DEVELOPMENT_TEAM = 5PRJ2M52BU;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -364,6 +491,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B82A57F7309E4AFB00F4FDCC /* Build configuration list for PBXNativeTarget "TestGalleryAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B82A57F8309E4AFB00F4FDCC /* Debug */,
+				B82A57F9309E4AFB00F4FDCC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B8E552CD309CD47700FB98F4 /* Build configuration list for PBXProject "TestGalleryApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
