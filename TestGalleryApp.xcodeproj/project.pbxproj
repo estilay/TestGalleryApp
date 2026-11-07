@@ -30,7 +30,7 @@
 		B8E552E7309CD47800FB98F4 /* Exceptions for "TestGalleryApp" folder in "TestGalleryApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				Application/Info.plist,
 			);
 			target = B8E552D1309CD47700FB98F4 /* TestGalleryApp */;
 		};
@@ -296,7 +296,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5PRJ2M52BU;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TestGalleryApp/Info.plist;
+				INFOPLIST_FILE = TestGalleryApp/Application/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -335,7 +335,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5PRJ2M52BU;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TestGalleryApp/Info.plist;
+				INFOPLIST_FILE = TestGalleryApp/Application/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
