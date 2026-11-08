@@ -26,6 +26,7 @@ final class FavoritesRepository: FavoritesRepositoryProtocol {
         entity.dateAdded = Date()
         try context.save()
         Logger.persistence.info("[\(Self.self)] Saved favorite: \(photo.id, privacy: .public)")
+        NotificationCenter.default.post(name: .favoritesDidChange, object: nil)
     }
     
     func remove(id: String) throws {
@@ -34,6 +35,7 @@ final class FavoritesRepository: FavoritesRepositoryProtocol {
         context.delete(entity)
         try context.save()
         Logger.persistence.info("[\(Self.self)] Removed favorite: \(id, privacy: .public)")
+        NotificationCenter.default.post(name: .favoritesDidChange, object: nil)
     }
     
     func fetchAll() throws -> [FavoritePhoto] {
@@ -62,4 +64,9 @@ final class FavoritesRepository: FavoritesRepositoryProtocol {
         request.sortDescriptors = [NSSortDescriptor(key: "dateAdded", ascending: false)]
         return try context.fetch(request)
     }
+}
+
+// MARK: - Notification
+extension Notification.Name {
+    static let favoritesDidChange = Notification.Name("favoritesDidChange")
 }

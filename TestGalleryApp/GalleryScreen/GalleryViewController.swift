@@ -13,35 +13,40 @@ final class GalleryViewController: UIViewController {
         collectionView.delegate = self
         collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         return collectionView
     }()
-
+    
     // MARK: - Init
     init(viewModel: GalleryViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         nil
     }
-
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupNavigation()
         bindViewModel()
+        setupNotification()
         loadInitialData()
     }
-
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: - Setup UI
     private func setupUI() {
         view.backgroundColor = .systemBackground
         view.addSubview(collectionView)
-
+        
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -49,11 +54,11 @@ final class GalleryViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-
+    
     private func setupNavigation() {
         title = "Gallery"
     }
-
+    
     // MARK: - Layout
     private func makeLayout() -> UICollectionViewCompositionalLayout {
         let item = NSCollectionLayoutItem(
@@ -63,7 +68,7 @@ final class GalleryViewController: UIViewController {
             )
         )
         item.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4)
-
+        
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1),
@@ -71,11 +76,11 @@ final class GalleryViewController: UIViewController {
             ),
             subitems: [item]
         )
-
+        
         let section = NSCollectionLayoutSection(group: group)
         return UICollectionViewCompositionalLayout(section: section)
     }
-
+    
     // MARK: - Binding
     private func bindViewModel() {
         viewModel.onPhotosUpdated = { [weak self] in
@@ -85,20 +90,37 @@ final class GalleryViewController: UIViewController {
             self?.presentError(message)
         }
     }
-
+    
     private func loadInitialData() {
         Task {
             await viewModel.loadFirstPage()
         }
     }
-
+    
+    // MARK: - Notification
+    private func setupNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(favoritesDidChange),
+            name: .favoritesDidChange,
+            object: nil
+        )
+    }
+    
+    @objc
+    private func favoritesDidChange() {
+        let visibleIndexPaths = collectionView.indexPathsForVisibleItems
+        guard !visibleIndexPaths.isEmpty else { return }
+        collectionView.reloadItems(at: visibleIndexPaths)
+    }
+    
     // MARK: - Error Handling
     private func presentError(_ message: String) {
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
-
+    
     // MARK: - Actions
     private func toggleFavorite(at indexPath: IndexPath) {
         let photo = viewModel.photos[indexPath.item]
@@ -112,7 +134,7 @@ extension GalleryViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.photos.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: PhotoCell.identifier,
