@@ -11,8 +11,9 @@ final class MainTabBarController: UITabBarController {
     private func setupViewControllers() {
         let galleryViewModel = GalleryViewModel()
         let galleryViewController = GalleryViewController(viewModel: galleryViewModel)
-        let favoritesViewController = FavoritesViewController()
-
+        let favoritesViewModel = FavoritesViewModel()
+        let favoritesViewController = FavoritesViewController(viewModel: favoritesViewModel)
+        
         let galleryNav = UINavigationController(rootViewController: galleryViewController)
         let favoritesNav = UINavigationController(rootViewController: favoritesViewController)
 
