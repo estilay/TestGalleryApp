@@ -159,4 +159,14 @@ extension GalleryViewController: UICollectionViewDelegate {
             await viewModel.loadNextPage()
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let detailViewModel = DetailViewModel(
+            photos: viewModel.photos,
+            initialIndex: indexPath.item,
+            galleryViewModel: viewModel
+        )
+        let detailVC = DetailViewController(viewModel: detailViewModel)
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
 }
