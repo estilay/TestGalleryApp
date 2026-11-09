@@ -129,6 +129,28 @@ final class FavoritesViewController: UIViewController {
         })
         present(alert, animated: true)
     }
+    
+    // MARK: - Navigation
+    private func openDetail(at indexPath: IndexPath) {
+        let photos = viewModel.favorites.map { favorite in
+            Photo(
+                id: favorite.id,
+                description: favorite.title,
+                altDescription: nil,
+                urls: PhotoUrls(
+                    regular: favorite.regularURL,
+                    thumb: favorite.thumbURL
+                )
+            )
+        }
+        let detailViewModel = DetailViewModel(
+            photos: photos,
+            initialIndex: indexPath.item,
+            isReadOnly: true
+        )
+        let detailViewController = DetailViewController(viewModel: detailViewModel)
+        navigationController?.pushViewController(detailViewController, animated: true)
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -152,7 +174,9 @@ extension FavoritesViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension FavoritesViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        openDetail(at: indexPath)
+    }
 }
 
 // MARK: - FavoriteCellDelegate
