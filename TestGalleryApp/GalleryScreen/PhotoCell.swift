@@ -100,6 +100,10 @@ final class PhotoCell: UICollectionViewCell {
         )
     }
 
+    func setFavorite(_ isFavorite: Bool) {
+        updateFavoriteAppearance(isFavorite: isFavorite)
+    }
+
     override func prepareForReuse() {
         super.prepareForReuse()
         imageView.kf.cancelDownloadTask()

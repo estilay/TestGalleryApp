@@ -10,6 +10,7 @@ final class FavoritesViewModel {
     private(set) var isLoading = false
 
     var onFavoritesUpdated: (() -> Void)?
+    var onFavoriteRemoved: ((Int) -> Void)?
     var onError: ((String) -> Void)?
 
     // MARK: - Init
@@ -31,13 +32,12 @@ final class FavoritesViewModel {
         }
     }
 
-    func removeFavorite(at index: Int) {
-        guard favorites.indices.contains(index) else { return }
-        let favorite = favorites[index]
+    func removeFavorite(id: String) {
+        guard let index = favorites.firstIndex(where: { $0.id == id }) else { return }
         do {
-            try repository.remove(id: favorite.id)
+            try repository.remove(id: id)
             favorites.remove(at: index)
-            onFavoritesUpdated?()
+            onFavoriteRemoved?(index)
         } catch {
             Logger.persistence.error("[\(Self.self)] Failed to remove favorite: \(error.localizedDescription, privacy: .public)")
             onError?(error.localizedDescription)
