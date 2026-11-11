@@ -28,9 +28,9 @@ The app has three main screens:
 
 - **Gallery** — a grid of photos fetched from Unsplash. Loads 30 photos per page and fetches the next page when scrolling near the bottom. Each cell shows a thumbnail and a heart icon if the photo is saved.
 - **Detail** — pushed onto the navigation stack when a photo is tapped. Supports horizontal swipe navigation between photos, a description below the image, and a heart button to toggle favourite state. Pagination loads more photos when swiping near the end.
-- **Favourites** — a grid of saved photos. Long-press opens a context menu to remove a photo (with confirmation). Tapping a favourite opens the Detail screen in read-only mode.
+- **Favourites** — a grid of saved photos. Each cell has a heart button — tapping it removes the photo from favourites. Tapping a photo opens the Detail screen, where the same heart button can also be used to remove it.
 
-Favourite state is synced across all screens via `NotificationCenter`, so changes are reflected immediately.
+Favourite state is synced across all screens via `NotificationCenter`, so changes are reflected immediately. Gallery, Detail, and Favourites all use the same gesture — tap the heart — to add or remove a photo from favourites.
 
 ## Architecture
 
@@ -69,7 +69,7 @@ Gallery uses `UICollectionViewCompositionalLayout` and triggers `loadNextPage()`
 
 | Favourites | Remove from Favourites |
 |------------|------------------------|
-| <img width="300" src="https://github.com/user-attachments/assets/901aac45-885e-4016-a3d9-8f53b04ef6f8" /> | <img width="300" src="https://github.com/user-attachments/assets/92917777-19ca-49e6-8f8c-26da75050f65" /> |
+| <img width="300" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-11 at 12 46 32" src="https://github.com/user-attachments/assets/594e10fc-b949-47e6-936f-9697895fe2a3" /> | <img width="300" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-11 at 12 46 47" src="https://github.com/user-attachments/assets/698ee3d3-439c-4a03-847a-d48ac69ac550" /> |
 
 ## My Contacts
 
