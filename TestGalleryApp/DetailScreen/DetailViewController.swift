@@ -71,10 +71,15 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         bindViewModel()
+        setupNotification()
         updateFavoriteAppearance()
         scrollToInitialIndex()
     }
-    
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     // MARK: - Setup UI
     private func setupUI() {
         view.backgroundColor = .systemBackground
@@ -123,6 +128,21 @@ final class DetailViewController: UIViewController {
         viewModel.onPhotosUpdated = { [weak self] in
             self?.collectionView.reloadData()
         }
+    }
+    
+    // MARK: - Notification
+    private func setupNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(favoritesDidChange),
+            name: .favoritesDidChange,
+            object: nil
+        )
+    }
+
+    @objc
+    private func favoritesDidChange() {
+        updateFavoriteAppearance()
     }
     
     private func scrollToInitialIndex() {

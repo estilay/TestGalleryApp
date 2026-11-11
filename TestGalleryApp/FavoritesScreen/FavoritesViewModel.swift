@@ -10,7 +10,6 @@ final class FavoritesViewModel {
     private(set) var isLoading = false
 
     var onFavoritesUpdated: (() -> Void)?
-    var onFavoriteRemoved: ((Int) -> Void)?
     var onError: ((String) -> Void)?
 
     // MARK: - Init
@@ -32,14 +31,29 @@ final class FavoritesViewModel {
         }
     }
 
-    func removeFavorite(id: String) {
-        guard let index = favorites.firstIndex(where: { $0.id == id }) else { return }
+    func isFavorite(id: String) -> Bool {
+        repository.isFavorite(id: id)
+    }
+
+    func toggleFavorite(id: String) {
+        guard let favorite = favorites.first(where: { $0.id == id }) else { return }
         do {
-            try repository.remove(id: id)
-            favorites.remove(at: index)
-            onFavoriteRemoved?(index)
+            if repository.isFavorite(id: id) {
+                try repository.remove(id: id)
+            } else {
+                let photo = Photo(
+                    id: favorite.id,
+                    description: favorite.title,
+                    altDescription: nil,
+                    urls: PhotoUrls(
+                        regular: favorite.regularURL,
+                        thumb: favorite.thumbURL
+                    )
+                )
+                try repository.save(photo: photo)
+            }
         } catch {
-            Logger.persistence.error("[\(Self.self)] Failed to remove favorite: \(error.localizedDescription, privacy: .public)")
+            Logger.persistence.error("[\(Self.self)] Failed to toggle favorite: \(error.localizedDescription, privacy: .public)")
             onError?(error.localizedDescription)
         }
     }
