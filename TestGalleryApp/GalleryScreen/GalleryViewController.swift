@@ -109,9 +109,12 @@ final class GalleryViewController: UIViewController {
     
     @objc
     private func favoritesDidChange() {
-        let visibleIndexPaths = collectionView.indexPathsForVisibleItems
-        guard !visibleIndexPaths.isEmpty else { return }
-        collectionView.reloadItems(at: visibleIndexPaths)
+        for indexPath in collectionView.indexPathsForVisibleItems {
+            guard let cell = collectionView.cellForItem(at: indexPath) as? PhotoCell,
+                  viewModel.photos.indices.contains(indexPath.item) else { continue }
+            let photo = viewModel.photos[indexPath.item]
+            cell.setFavorite(viewModel.isFavorite(id: photo.id))
+        }
     }
     
     // MARK: - Error Handling
@@ -125,7 +128,9 @@ final class GalleryViewController: UIViewController {
     private func toggleFavorite(at indexPath: IndexPath) {
         let photo = viewModel.photos[indexPath.item]
         viewModel.toggleFavorite(photo: photo)
-        collectionView.reloadItems(at: [indexPath])
+
+        guard let cell = collectionView.cellForItem(at: indexPath) as? PhotoCell else { return }
+        cell.setFavorite(viewModel.isFavorite(id: photo.id))
     }
 }
 

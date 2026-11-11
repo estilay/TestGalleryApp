@@ -33,16 +33,11 @@ final class FavoritesViewController: UIViewController {
         setupUI()
         setupNavigation()
         bindViewModel()
-        setupNotification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.loadFavorites()
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Setup UI
@@ -94,39 +89,10 @@ final class FavoritesViewController: UIViewController {
         }
     }
     
-    // MARK: - Notification
-    private func setupNotification() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(favoritesDidChange),
-            name: .favoritesDidChange,
-            object: nil
-        )
-    }
-    
-    @objc
-    private func favoritesDidChange() {
-        viewModel.loadFavorites()
-    }
-    
     // MARK: - Error Handling
     private func presentError(_ message: String) {
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
-    }
-    
-    // MARK: - Delete Confirmation
-    private func presentDeleteConfirmation(for indexPath: IndexPath) {
-        let alert = UIAlertController(
-            title: "Remove from Favorites",
-            message: "Are you sure you want to remove this photo from favorites?",
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Remove", style: .destructive) { [weak self] _ in
-            self?.viewModel.removeFavorite(at: indexPath.item)
-        })
         present(alert, animated: true)
     }
     
@@ -146,7 +112,7 @@ final class FavoritesViewController: UIViewController {
         let detailViewModel = DetailViewModel(
             photos: photos,
             initialIndex: indexPath.item,
-            isReadOnly: true
+            isReadOnly: false
         )
         let detailViewController = DetailViewController(viewModel: detailViewModel)
         navigationController?.pushViewController(detailViewController, animated: true)
@@ -163,11 +129,17 @@ extension FavoritesViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: FavoriteCell.identifier,
             for: indexPath
-        ) as? FavoriteCell else {
+        ) as? FavoriteCell,
+              viewModel.favorites.indices.contains(indexPath.item) else {
             return UICollectionViewCell()
         }
-        cell.delegate = self
-        cell.configure(with: viewModel.favorites[indexPath.item])
+        let favorite = viewModel.favorites[indexPath.item]
+        cell.configure(with: favorite, isFavorite: viewModel.isFavorite(id: favorite.id))
+        cell.onFavoriteTapped = { [weak self] in
+            self?.viewModel.toggleFavorite(id: favorite.id)
+            guard let currentCell = collectionView.cellForItem(at: indexPath) as? FavoriteCell else { return }
+            currentCell.updateFavoriteAppearance(isFavorite: self?.viewModel.isFavorite(id: favorite.id) ?? false)
+        }
         return cell
     }
 }
@@ -175,14 +147,7 @@ extension FavoritesViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension FavoritesViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard viewModel.favorites.indices.contains(indexPath.item) else { return }
         openDetail(at: indexPath)
-    }
-}
-
-// MARK: - FavoriteCellDelegate
-extension FavoritesViewController: FavoriteCellDelegate {
-    func favoriteCellDidRequestDelete(_ cell: FavoriteCell) {
-        guard let indexPath = collectionView.indexPath(for: cell) else { return }
-        presentDeleteConfirmation(for: indexPath)
     }
 }

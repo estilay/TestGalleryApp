@@ -31,15 +31,29 @@ final class FavoritesViewModel {
         }
     }
 
-    func removeFavorite(at index: Int) {
-        guard favorites.indices.contains(index) else { return }
-        let favorite = favorites[index]
+    func isFavorite(id: String) -> Bool {
+        repository.isFavorite(id: id)
+    }
+
+    func toggleFavorite(id: String) {
+        guard let favorite = favorites.first(where: { $0.id == id }) else { return }
         do {
-            try repository.remove(id: favorite.id)
-            favorites.remove(at: index)
-            onFavoritesUpdated?()
+            if repository.isFavorite(id: id) {
+                try repository.remove(id: id)
+            } else {
+                let photo = Photo(
+                    id: favorite.id,
+                    description: favorite.title,
+                    altDescription: nil,
+                    urls: PhotoUrls(
+                        regular: favorite.regularURL,
+                        thumb: favorite.thumbURL
+                    )
+                )
+                try repository.save(photo: photo)
+            }
         } catch {
-            Logger.persistence.error("[\(Self.self)] Failed to remove favorite: \(error.localizedDescription, privacy: .public)")
+            Logger.persistence.error("[\(Self.self)] Failed to toggle favorite: \(error.localizedDescription, privacy: .public)")
             onError?(error.localizedDescription)
         }
     }

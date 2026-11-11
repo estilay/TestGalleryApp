@@ -1,17 +1,12 @@
 import UIKit
 import Kingfisher
 
-// MARK: - FavoriteCellDelegate
-protocol FavoriteCellDelegate: AnyObject {
-    func favoriteCellDidRequestDelete(_ cell: FavoriteCell)
-}
-
 // MARK: - FavoriteCell
 final class FavoriteCell: UICollectionViewCell {
     // MARK: - Properties
     static let identifier = "FavoriteCell"
 
-    weak var delegate: FavoriteCellDelegate?
+    var onFavoriteTapped: (() -> Void)?
 
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -24,11 +19,35 @@ final class FavoriteCell: UICollectionViewCell {
         return imageView
     }()
 
+    private lazy var favoriteButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(favoriteTapped), for: .touchUpInside)
+        return button
+    }()
+
+    private lazy var heartFillView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "heart.fill")
+        imageView.tintColor = .white
+        imageView.isUserInteractionEnabled = false
+        return imageView
+    }()
+
+    private lazy var heartOutlineView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "heart")
+        imageView.tintColor = .black
+        imageView.isUserInteractionEnabled = false
+        return imageView
+    }()
+
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        setupContextMenu()
     }
 
     @available(*, unavailable)
@@ -39,23 +58,37 @@ final class FavoriteCell: UICollectionViewCell {
     // MARK: - Setup UI
     private func setupUI() {
         contentView.addSubview(imageView)
+        contentView.addSubview(favoriteButton)
+        favoriteButton.addSubview(heartFillView)
+        favoriteButton.addSubview(heartOutlineView)
 
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+
+            favoriteButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
+            favoriteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 28),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 28),
+
+            heartFillView.topAnchor.constraint(equalTo: favoriteButton.topAnchor),
+            heartFillView.leadingAnchor.constraint(equalTo: favoriteButton.leadingAnchor),
+            heartFillView.trailingAnchor.constraint(equalTo: favoriteButton.trailingAnchor),
+            heartFillView.bottomAnchor.constraint(equalTo: favoriteButton.bottomAnchor),
+
+            heartOutlineView.topAnchor.constraint(equalTo: favoriteButton.topAnchor),
+            heartOutlineView.leadingAnchor.constraint(equalTo: favoriteButton.leadingAnchor),
+            heartOutlineView.trailingAnchor.constraint(equalTo: favoriteButton.trailingAnchor),
+            heartOutlineView.bottomAnchor.constraint(equalTo: favoriteButton.bottomAnchor)
         ])
     }
 
-    private func setupContextMenu() {
-        let interaction = UIContextMenuInteraction(delegate: self)
-        addInteraction(interaction)
-        isUserInteractionEnabled = true
-    }
-
     // MARK: - Configure
-    func configure(with favorite: FavoritePhoto) {
+    func configure(with favorite: FavoritePhoto, isFavorite: Bool) {
+        updateFavoriteAppearance(isFavorite: isFavorite)
+
         let url = URL(string: favorite.thumbURL)
         imageView.kf.setImage(
             with: url,
@@ -67,29 +100,26 @@ final class FavoriteCell: UICollectionViewCell {
         )
     }
 
+    func updateFavoriteAppearance(isFavorite: Bool) {
+        if isFavorite {
+            heartFillView.tintColor = .systemRed
+            heartOutlineView.tintColor = .systemRed
+        } else {
+            heartFillView.tintColor = .white
+            heartOutlineView.tintColor = .black
+        }
+    }
+
     override func prepareForReuse() {
         super.prepareForReuse()
         imageView.kf.cancelDownloadTask()
         imageView.image = nil
-        delegate = nil
+        updateFavoriteAppearance(isFavorite: false)
+        onFavoriteTapped = nil
     }
-}
 
-// MARK: - UIContextMenuInteractionDelegate
-extension FavoriteCell: UIContextMenuInteractionDelegate {
-    func contextMenuInteraction(
-        _ interaction: UIContextMenuInteraction,
-        configurationForMenuAtLocation location: CGPoint
-    ) -> UIContextMenuConfiguration? {
-        UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self] _ in
-            guard let self else { return nil }
-            let deleteAction = UIAction(
-                title: "Remove from Favorites",
-                attributes: .destructive
-            ) { _ in
-                self.delegate?.favoriteCellDidRequestDelete(self)
-            }
-            return UIMenu(children: [deleteAction])
-        }
+    // MARK: - Actions
+    @objc private func favoriteTapped() {
+        onFavoriteTapped?()
     }
 }
